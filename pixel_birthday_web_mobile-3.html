@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Birthday 🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --denim:#243c8f;
+  --bg:#ffffff;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Press Start 2P', monospace;
+  background:var(--bg);
+  color:var(--denim);
+  -webkit-font-smoothing:none;
+  text-rendering:geometricPrecision;
+}
+.screen{
+  display:none;
+  height:100vh;
+  width:100vw;
+  padding:24px;
+  text-align:center;
+}
+.screen.active{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.button{
+  border:3px solid var(--denim);
+  padding:14px 18px;
+  margin-top:24px;
+  background:#e9edff;
+}
+.small{font-size:10px;margin-top:12px;}
+/* envelope */
+.envelope{
+  width:180px;height:120px;
+  border:4px solid var(--denim);
+  position:relative;
+}
+.letter{
+  width:160px;height:100px;
+  border:3px solid var(--denim);
+  position:absolute;bottom:-100px;left:10px;
+  animation:letterOut 2s forwards;
+}
+@keyframes letterOut{
+  to{bottom:10px;}
+}
+/* fireworks */
+.firework{position:absolute;width:6px;height:6px;background:var(--denim);animation:boom 1.2s infinite;}
+@keyframes boom{0%{transform:scale(1);}50%{transform:scale(3);}100%{transform:scale(1);}}
+.scroll-box{
+  max-height:60vh;
+  overflow-y:auto;
+  border:3px solid var(--denim);
+  padding:16px;
+}
+</style>
+</head>
+<body>
+
+<audio id="music" src="lemonade.mp3"></audio>
+
+<div class="screen active" id="play">
+  <div class="button" onclick="start()">▶</div>
+  <div class="small">click here</div>
+</div>
+
+<div class="screen" id="env">
+  <div class="envelope">
+    <div class="letter"></div>
+  </div>
+  <div class="button" onclick="next('msg1')">next</div>
+</div>
+
+<div class="screen" id="msg1">
+  <div>hello.</div><br>
+  <div>today i wanna talk to you about something important.</div>
+  <div class="button" onclick="next('msg2')">next</div>
+</div><br>
+  <div>today i wanna talk to you about something important.</div>
+  <div class="button" onclick="next('msg2')">next</div>
+</div>
+
+<div class="screen" id="msg2">
+  <div>
+    i wanna talk about your life.<br>
+    yes, your life.<br><br>
+    i know sometimes life is hard.<br>
+    you feel tired.<br>
+    you feel sad.<br>
+    maybe you don't like your job.<br>
+    maybe you feel lost.<br><br>
+    but hey, this is not the end.<br>
+    you are still here.<br>
+    you still have time.<br>
+    you can start again.
+  </div>
+  <div class="button" onclick="next('msg3')">next</div>
+</div>
+  <div class="button" onclick="next('msg3')">next</div>
+</div>
+
+<div class="screen" id="msg3">
+  <div class="scroll-box">
+happy birthday, sayang.<br><br>
+
+today is your day, and i just want you to know this first: you matter, more than you probably realize.<br><br>
+
+another year older doesn’t always mean everything suddenly feels clear or figured out. sometimes it just means we’ve survived another chapter dengan capeknya, bingungnya, dan pelan-pelan belajarnya. and honestly, i’ve seen how hard you try. even on days when you don’t talk much, when you look tired, or when you question yourself quietly. that part of you? it doesn’t go unnoticed.<br><br>
+
+aku tahu hidup nggak selalu sesuai rencana. ada hal-hal yang belum kejadian, ada target yang masih jauh, ada hari di mana kamu merasa stuck. but the way you keep showing up, the way you still try, even when you’re not sure about the outcome, that’s something i truly admire about you.<br><br>
+
+being with you has taught me that love isn’t always loud or dramatic. sometimes it’s just sitting together in silence, sharing small stories, laughing at random things, or checking in on each other after a long day. and i like that kind of love. simple, calm, real.<br><br>
+
+di ulang tahun kamu ini, i don’t wish you perfection. i wish you peace. i hope you feel less pressure to be “ahead” and more permission to go at your own pace. semoga kamu bisa be a little kinder to yourself, because you’re actually doing better than you think.<br><br>
+
+if one day you feel overwhelmed, unsure, or tired of everything, i hope you remember that you don’t have to handle it all alone. i may not always fix things, but i’ll stay. i’ll listen. i’ll be there, in the way i know how.<br><br>
+
+thank you for being you.<br>
+thank you for trusting me with your thoughts, your worries, your random jokes, and your quiet moments. being part of your life is something i don’t take lightly.<br><br>
+
+happy birthday, my favorite person.<br>
+may this new year bring you clarity where you need it, calm where you deserve it, and small joys that slowly add up. and hopefully, i still get to walk beside you and growing together, one year at a time 🤍
+</div>
+  <div class="button" onclick="next('final')">next</div>
+</div>
+
+<div class="screen" id="final" style="position:relative;overflow:hidden;">
+  <div style="z-index:2;">happy birthday 🤍</div>
+  <canvas id="confetti" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;"></canvas>
+</div>
+  <div class="firework" style="top:40%;left:30%"></div>
+  <div class="firework" style="top:30%;left:60%"></div>
+</div>
+
+<script>
+const music=document.getElementById('music');
+function start(){
+  music.volume=0;
+  music.play();
+  let v=0;
+  const fade=setInterval(()=>{
+    v+=0.02;music.volume=Math.min(v,1);
+    if(v>=1)clearInterval(fade);
+  },100);
+  next('env');
+}
+function next(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='final') startConfetti();
+}
+
+function startConfetti(){
+  const canvas=document.getElementById('confetti');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const pieces=Array.from({length:120},()=>({
+    x:Math.random()*canvas.width,
+    y:Math.random()*-canvas.height,
+    r:4+Math.random()*4,
+    d:Math.random()*canvas.height,
+    color:['#243c8f','#4b6cb7','#ffffff'][Math.floor(Math.random()*3)],
+    tilt:Math.random()*10
+  }));
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.fillStyle=p.color;
+      ctx.fillRect(p.x,p.y,p.r,p.r);
+    });
+    update();
+  }
+  function update(){
+    pieces.forEach(p=>{
+      p.y+=2+p.r/2;
+      if(p.y>canvas.height){p.y=-10;}
+    });
+  }
+  setInterval(draw,30);
+}
+</script>
+
+</body>
+</html>
