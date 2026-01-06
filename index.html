@@ -3,109 +3,212 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Happy Birthday 🤍</title>
+<title>happy birthday 🤍</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --denim:#243c8f;
-  --bg:#ffffff;
+  --soft:#e9edff;
 }
+
 *{box-sizing:border-box;}
+
 body{
   margin:0;
   font-family:'Press Start 2P', monospace;
-  background:var(--bg);
+  background:#fff;
   color:var(--denim);
-  -webkit-font-smoothing:none;
-  text-rendering:geometricPrecision;
+  overflow:hidden;
 }
+
 .screen{
   display:none;
-  height:100vh;
   width:100vw;
+  height:100vh;
   padding:24px;
-  text-align:center;
 }
-.screen.active{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+
+.screen.active{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.content{
+  max-width:520px;
+  margin:0 auto;
+  font-size:10px;
+  line-height:1.8;
+  text-align:left;
+}
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-top:28px;
+}
+
 .button{
+  padding:12px 16px;
   border:3px solid var(--denim);
-  padding:14px 18px;
-  margin-top:24px;
-  background:#e9edff;
+  background:var(--soft);
+  font-size:9px;
 }
-.small{font-size:10px;margin-top:12px;}
+
 /* envelope */
+.envelope-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:32px;
+}
+
 .envelope{
-  width:180px;height:120px;
+  width:180px;
+  height:120px;
   border:4px solid var(--denim);
   position:relative;
+  overflow:hidden;
 }
+
+.flap{
+  position:absolute;
+  inset:0;
+  background:#fff;
+  border-bottom:4px solid var(--denim);
+  transform-origin:top;
+  animation:openFlap 1.2s forwards;
+}
+
 .letter{
-  width:160px;height:100px;
+  width:160px;
+  height:100px;
   border:3px solid var(--denim);
-  position:absolute;bottom:-100px;left:10px;
-  animation:letterOut 2s forwards;
+  position:absolute;
+  bottom:-120px;
+  left:10px;
+  background:#fff;
+  animation:letterOut 1.6s forwards;
+}
+
+@keyframes openFlap{
+  to{transform:rotateX(160deg);}
 }
 @keyframes letterOut{
   to{bottom:10px;}
 }
-/* fireworks */
-.firework{position:absolute;width:6px;height:6px;background:var(--denim);animation:boom 1.2s infinite;}
-@keyframes boom{0%{transform:scale(1);}50%{transform:scale(3);}100%{transform:scale(1);}}
-.scroll-box{
-  max-height:60vh;
+
+/* scroll letter */
+.scroll{
+  max-height:65vh;
   overflow-y:auto;
   border:3px solid var(--denim);
   padding:16px;
+  font-size:9px;
+  line-height:1.7;
+}
+
+/* play */
+.center{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.small{
+  font-size:8px;
+  margin-top:10px;
+}
+
+/* final */
+#final{
+  position:relative;
+  overflow:hidden;
+}
+
+canvas{
+  position:absolute;
+  inset:0;
+}
+
+.final-text{
+  position:relative;
+  z-index:1;
+  font-size:10px;
+  text-align:left;
+  max-width:520px;
+  margin:0 auto;
 }
 </style>
 </head>
+
 <body>
 
 <audio id="music" src="lemonade.mp3"></audio>
 
+<!-- PLAY -->
 <div class="screen active" id="play">
-  <div class="button" onclick="start()">▶</div>
-  <div class="small">click here</div>
-</div>
-
-<div class="screen" id="env">
-  <div class="envelope">
-    <div class="letter"></div>
+  <div class="center">
+    <div class="button" onclick="start()">▶</div>
+    <div class="small">click here</div>
   </div>
-  <div class="button" onclick="next('msg1')">next</div>
 </div>
 
+<!-- ENVELOPE -->
+<div class="screen" id="envelope">
+  <div class="envelope-wrap">
+    <div class="envelope">
+      <div class="flap"></div>
+      <div class="letter"></div>
+    </div>
+  </div>
+  <div class="nav">
+    <div></div>
+    <div class="button" onclick="go('msg1')">next</div>
+  </div>
+</div>
+
+<!-- MSG 1 -->
 <div class="screen" id="msg1">
-  <div>hello.</div><br>
-  <div>today i wanna talk to you about something important.</div>
-  <div class="button" onclick="next('msg2')">next</div>
-</div><br>
-  <div>today i wanna talk to you about something important.</div>
-  <div class="button" onclick="next('msg2')">next</div>
+  <div class="content">
+    hello.<br><br>
+    today i wanna talk to you about something important.
+  </div>
+  <div class="nav">
+    <div class="button" onclick="go('envelope')">back</div>
+    <div class="button" onclick="go('msg2')">next</div>
+  </div>
 </div>
 
+<!-- MSG 2 -->
 <div class="screen" id="msg2">
-  <div>
+  <div class="content">
     i wanna talk about your life.<br>
     yes, your life.<br><br>
+
     i know sometimes life is hard.<br>
     you feel tired.<br>
     you feel sad.<br>
     maybe you don't like your job.<br>
     maybe you feel lost.<br><br>
+
     but hey, this is not the end.<br>
     you are still here.<br>
     you still have time.<br>
     you can start again.
   </div>
-  <div class="button" onclick="next('msg3')">next</div>
-</div>
-  <div class="button" onclick="next('msg3')">next</div>
+  <div class="nav">
+    <div class="button" onclick="go('msg1')">back</div>
+    <div class="button" onclick="go('msg3')">next</div>
+  </div>
 </div>
 
+<!-- LETTER -->
 <div class="screen" id="msg3">
-  <div class="scroll-box">
+  <div class="scroll">
 happy birthday, sayang.<br><br>
 
 today is your day, and i just want you to know this first: you matter, more than you probably realize.<br><br>
@@ -125,64 +228,65 @@ thank you for trusting me with your thoughts, your worries, your random jokes, a
 
 happy birthday, my favorite person.<br>
 may this new year bring you clarity where you need it, calm where you deserve it, and small joys that slowly add up. and hopefully, i still get to walk beside you and growing together, one year at a time 🤍
-</div>
-  <div class="button" onclick="next('final')">next</div>
+  </div>
+  <div class="nav">
+    <div class="button" onclick="go('msg2')">back</div>
+    <div class="button" onclick="go('final')">next</div>
+  </div>
 </div>
 
-<div class="screen" id="final" style="position:relative;overflow:hidden;">
-  <div style="z-index:2;">happy birthday 🤍</div>
-  <canvas id="confetti" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;"></canvas>
-</div>
-  <div class="firework" style="top:40%;left:30%"></div>
-  <div class="firework" style="top:30%;left:60%"></div>
+<!-- FINAL -->
+<div class="screen" id="final">
+  <div class="final-text">happy birthday 🤍</div>
+  <canvas id="confetti"></canvas>
 </div>
 
 <script>
 const music=document.getElementById('music');
+
 function start(){
   music.volume=0;
   music.play();
   let v=0;
   const fade=setInterval(()=>{
-    v+=0.02;music.volume=Math.min(v,1);
-    if(v>=1)clearInterval(fade);
+    v+=0.02;
+    music.volume=Math.min(v,1);
+    if(v>=1) clearInterval(fade);
   },100);
-  next('env');
-}
-function next(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(id==='final') startConfetti();
+  go('envelope');
 }
 
-function startConfetti(){
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+  if(id==='final') confetti();
+}
+
+function confetti(){
   const canvas=document.getElementById('confetti');
   const ctx=canvas.getContext('2d');
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-  const pieces=Array.from({length:120},()=>({
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+
+  const pieces=Array.from({length:160},()=>({
     x:Math.random()*canvas.width,
     y:Math.random()*-canvas.height,
-    r:4+Math.random()*4,
-    d:Math.random()*canvas.height,
-    color:['#243c8f','#4b6cb7','#ffffff'][Math.floor(Math.random()*3)],
-    tilt:Math.random()*10
+    s:4+Math.random()*4,
+    v:2+Math.random()*2,
+    c:['#243c8f','#4b6cb7','#ffffff'][Math.floor(Math.random()*3)]
   }));
-  function draw(){
+
+  setInterval(()=>{
     ctx.clearRect(0,0,canvas.width,canvas.height);
     pieces.forEach(p=>{
-      ctx.fillStyle=p.color;
-      ctx.fillRect(p.x,p.y,p.r,p.r);
+      ctx.fillStyle=p.c;
+      ctx.fillRect(p.x,p.y,p.s,p.s);
+      p.y+=p.v;
+      if(p.y>canvas.height) p.y=-10;
     });
-    update();
-  }
-  function update(){
-    pieces.forEach(p=>{
-      p.y+=2+p.r/2;
-      if(p.y>canvas.height){p.y=-10;}
-    });
-  }
-  setInterval(draw,30);
+  },30);
 }
 </script>
 
